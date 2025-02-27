@@ -1,27 +1,27 @@
 /* add user code begin Header */
 /**
-  **************************************************************************
-  * @file     main.c
-  * @brief    main program
-  **************************************************************************
-  *                       Copyright notice & Disclaimer
-  *
-  * The software Board Support Package (BSP) that is made available to
-  * download from Artery official website is the copyrighted work of Artery.
-  * Artery authorizes customers to use, copy, and distribute the BSP
-  * software and its related documentation for the purpose of design and
-  * development in conjunction with Artery microcontrollers. Use of the
-  * software is governed by this copyright notice and the following disclaimer.
-  *
-  * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
-  * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
-  * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
-  * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
-  * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
-  *
-  **************************************************************************
-  */
+ **************************************************************************
+ * @file     main.c
+ * @brief    main program
+ **************************************************************************
+ *                       Copyright notice & Disclaimer
+ *
+ * The software Board Support Package (BSP) that is made available to
+ * download from Artery official website is the copyrighted work of Artery.
+ * Artery authorizes customers to use, copy, and distribute the BSP
+ * software and its related documentation for the purpose of design and
+ * development in conjunction with Artery microcontrollers. Use of the
+ * software is governed by this copyright notice and the following disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED ON "AS IS" BASIS WITHOUT WARRANTIES,
+ * GUARANTEES OR REPRESENTATIONS OF ANY KIND. ARTERY EXPRESSLY DISCLAIMS,
+ * TO THE FULLEST EXTENT PERMITTED BY LAW, ALL EXPRESS, IMPLIED OR
+ * STATUTORY OR OTHER WARRANTIES, GUARANTEES OR REPRESENTATIONS,
+ * INCLUDING BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+ *
+ **************************************************************************
+ */
 /* add user code end Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -34,49 +34,31 @@
 #include "wk_system.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "FG_task.h"
+#include "PWM_task.h"
+#include "RS485_task.h"
 
-/* private includes ----------------------------------------------------------*/
-/* add user code begin private includes */
+#define START_TASK_PRIO 1
+#define START_STK_SIZE 128
 
-/* add user code end private includes */
+#define RS485_TASK_PRIO 3
+#define RS485_STK_SIZE 1024
 
-/* private typedef -----------------------------------------------------------*/
-/* add user code begin private typedef */
+#define PWM_TASK_PRIO 2
+#define PWM_STK_SIZE 1024
 
-/* add user code end private typedef */
+#define FG_TASK_PRIO 2
+#define FG_STK_SIZE 1024
 
-/* private define ------------------------------------------------------------*/
-/* add user code begin private define */
-
-/* add user code end private define */
-
-/* private macro -------------------------------------------------------------*/
-/* add user code begin private macro */
-
-/* add user code end private macro */
-
-/* private variables ---------------------------------------------------------*/
-/* add user code begin private variables */
-
-/* add user code end private variables */
-
-/* private function prototypes --------------------------------------------*/
-/* add user code begin function prototypes */
-
-/* add user code end function prototypes */
-
-/* private user code ---------------------------------------------------------*/
-/* add user code begin 0 */
-
-/* add user code end 0 */
+TaskHandle_t StartTask_Handler;
+void start_task(void* pvParameters);
 
 /**
-  * @brief main function.
-  * @param  none
-  * @retval none
-  */
-int main(void)
-{
+ * @brief main function.
+ * @param  none
+ * @retval none
+ */
+int main(void) {
   /* add user code begin 1 */
 
   /* add user code end 1 */
@@ -117,6 +99,12 @@ int main(void)
   /* init tmr5 function. */
   wk_tmr5_init();
 
+  /* init tmr9 function. */
+  wk_tmr9_init();
+
+  /* init tmr10 function. */
+  wk_tmr10_init();
+
   /* init crc function. */
   wk_crc_init();
 
@@ -124,14 +112,20 @@ int main(void)
 
   /* add user code end 2 */
 
-  while(1)
-  {
-    /* add user code begin 3 */
-
-    /* add user code end 3 */
-  }
+  xTaskCreate((TaskFunction_t)start_task, (const char*)"start_task", (uint16_t)START_STK_SIZE, (void*)NULL, (UBaseType_t)START_TASK_PRIO,
+              (TaskHandle_t*)&StartTask_Handler);
+  vTaskStartScheduler();
 }
 
-  /* add user code begin 4 */
-
-  /* add user code end 4 */
+void start_task(void* pvParameters) {
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)RS485_task_function, (const char*)"RS485_task", (uint16_t)RS485_STK_SIZE, (void*)NULL, (UBaseType_t)RS485_TASK_PRIO,
+              (TaskHandle_t*)&RS485Task_Handler);
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)PWM_task_function, (const char*)"PWM_task", (uint16_t)PWM_STK_SIZE, (void*)NULL, (UBaseType_t)PWM_TASK_PRIO,
+              (TaskHandle_t*)&PWMTask_Handler);
+  vTaskDelay(300);
+  xTaskCreate((TaskFunction_t)FG_task_function, (const char*)"FG_task", (uint16_t)FG_STK_SIZE, (void*)NULL, (UBaseType_t)FG_TASK_PRIO,
+              (TaskHandle_t*)&FGTask_Handler);
+  vTaskDelete(StartTask_Handler);
+}
