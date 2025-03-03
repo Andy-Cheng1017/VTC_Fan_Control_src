@@ -126,6 +126,7 @@ void PWM_task_function(void* parameter) {
   PwmInit(&Fan16_PWM);
 
   while (1) {
+    // vTaskDelay(PWM_WRITE_PERIOD);
     vTaskDelayUntil(&xLastWakeTime, PWM_WRITE_PERIOD);
     PwmSetDuty(&Fan1_PWM, FansCardCtrl.fan1_duty);
     PwmSetDuty(&Fan2_PWM, FansCardCtrl.fan2_duty);

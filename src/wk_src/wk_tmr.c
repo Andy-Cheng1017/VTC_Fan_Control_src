@@ -105,11 +105,11 @@ void wk_tmr1_init(void) {
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_1, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_1C, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1C, 0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1C, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_1, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_1C, FALSE);
 
   /* configure channel 2 output settings */
   tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
@@ -119,11 +119,11 @@ void wk_tmr1_init(void) {
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_2, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_2, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_2C, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2C, 0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_2C, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_2, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_2C, FALSE);
 
   /* configure channel 3 output settings */
   tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
@@ -133,11 +133,11 @@ void wk_tmr1_init(void) {
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_3, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_3, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_3C, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3C, 0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_3C, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_3, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_3C, FALSE);
 
   /* configure channel 4 output settings */
   tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;

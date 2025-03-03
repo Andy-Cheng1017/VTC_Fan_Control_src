@@ -42,13 +42,13 @@
 #define START_STK_SIZE 128
 
 #define RS485_TASK_PRIO 3
-#define RS485_STK_SIZE 1024
+#define RS485_STK_SIZE 128
 
 #define PWM_TASK_PRIO 2
-#define PWM_STK_SIZE 1024
+#define PWM_STK_SIZE 512
 
 #define FG_TASK_PRIO 2
-#define FG_STK_SIZE 1024
+#define FG_STK_SIZE 512
 
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
@@ -124,8 +124,9 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)PWM_task_function, (const char*)"PWM_task", (uint16_t)PWM_STK_SIZE, (void*)NULL, (UBaseType_t)PWM_TASK_PRIO,
               (TaskHandle_t*)&PWMTask_Handler);
-  vTaskDelay(300);
+  vTaskDelay(100);
   xTaskCreate((TaskFunction_t)FG_task_function, (const char*)"FG_task", (uint16_t)FG_STK_SIZE, (void*)NULL, (UBaseType_t)FG_TASK_PRIO,
               (TaskHandle_t*)&FGTask_Handler);
-  vTaskDelete(StartTask_Handler);
+  
+  vTaskDelete(NULL);
 }

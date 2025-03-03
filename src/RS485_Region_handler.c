@@ -1,4 +1,6 @@
 #include "RS485_Region_handler.h"
+#include "PWM_task.h"
+#include "FG_task.h"
 
 uint32_t FansCardHdle(RsFunc_t func, uint16_t addr, uint16_t data, uint8_t len, bool root) {
   if (func == READ_HOLDING_REGISTERS) {
