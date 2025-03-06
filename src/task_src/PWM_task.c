@@ -16,19 +16,19 @@ PwmParam_t Fan1_PWM = {
 };
 
 PwmParam_t Fan2_PWM = {
-    .channel = TMR_SELECT_CHANNEL_1C,
+    .channel = TMR_SELECT_CHANNEL_1,
     .tmr_x = TMR1,
     .tmr_period_val = 59999,
 };
 
 PwmParam_t Fan3_PWM = {
-    .channel = TMR_SELECT_CHANNEL_2C,
+    .channel = TMR_SELECT_CHANNEL_2,
     .tmr_x = TMR1,
     .tmr_period_val = 59999,
 };
 
 PwmParam_t Fan4_PWM = {
-    .channel = TMR_SELECT_CHANNEL_3C,
+    .channel = TMR_SELECT_CHANNEL_3,
     .tmr_x = TMR1,
     .tmr_period_val = 59999,
 };

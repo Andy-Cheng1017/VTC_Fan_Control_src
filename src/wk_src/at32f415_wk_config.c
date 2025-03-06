@@ -179,6 +179,9 @@ void wk_periph_clock_config(void) {
   /* enable tmr10 periph clock */
   crm_periph_clock_enable(CRM_TMR10_PERIPH_CLOCK, TRUE);
 
+  /* enable tmr11 periph clock */
+  crm_periph_clock_enable(CRM_TMR11_PERIPH_CLOCK, TRUE);
+
   /* enable tmr2 periph clock */
   crm_periph_clock_enable(CRM_TMR2_PERIPH_CLOCK, TRUE);
 
@@ -218,6 +221,7 @@ void wk_nvic_config(void) {
   nvic_irq_enable(EXINT9_5_IRQn, 0, 0);
   nvic_irq_enable(TMR1_BRK_TMR9_IRQn, 0, 0);
   nvic_irq_enable(TMR1_OVF_TMR10_IRQn, 0, 0);
+  nvic_irq_enable(TMR1_TRG_HALL_TMR11_IRQn, 0, 0);
   nvic_irq_enable(USART3_IRQn, 5, 0);
   nvic_irq_enable(EXINT15_10_IRQn, 0, 0);
 }

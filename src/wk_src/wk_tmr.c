@@ -98,49 +98,49 @@ void wk_tmr1_init(void) {
   tmr_overflow_event_disable(TMR1, TRUE);
 
   /* configure channel 1 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = FALSE;
   tmr_output_struct.occ_output_state = TRUE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_1C, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1C, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1C, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_1, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_1, 0x0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_1, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_1C, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_1, FALSE);
 
   /* configure channel 2 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = FALSE;
   tmr_output_struct.occ_output_state = TRUE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_2C, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2C, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_2C, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_2, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_2, 0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_2, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_2C, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_2, FALSE);
 
   /* configure channel 3 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = FALSE;
   tmr_output_struct.occ_output_state = TRUE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.occ_polarity = TMR_OUTPUT_ACTIVE_HIGH;
   tmr_output_struct.oc_idle_state = FALSE;
   tmr_output_struct.occ_idle_state = FALSE;
-  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_3C, &tmr_output_struct);
-  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3C, 0);
-  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_3C, FALSE);
+  tmr_output_channel_config(TMR1, TMR_SELECT_CHANNEL_3, &tmr_output_struct);
+  tmr_channel_value_set(TMR1, TMR_SELECT_CHANNEL_3, 0);
+  tmr_output_channel_buffer_enable(TMR1, TMR_SELECT_CHANNEL_3, FALSE);
 
-  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_3C, FALSE);
+  tmr_output_channel_immediately_set(TMR1, TMR_SELECT_CHANNEL_3, FALSE);
 
   /* configure channel 4 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -174,6 +174,7 @@ void wk_tmr1_init(void) {
    * 2. Add the user's interrupt handler code into the below function in the at32f415_int.c file.
    *     --void TMR1_BRK_TMR9_IRQHandler(void)
    *     --void TMR1_OVF_TMR10_IRQHandler(void)
+   *     --void TMR1_TRG_HALL_TMR11_IRQHandler(void)
    */
 
   /* add user code begin tmr1_init 2 */
@@ -233,7 +234,7 @@ void wk_tmr2_init(void) {
   tmr_overflow_event_disable(TMR2, TRUE);
 
   /* configure channel 1 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -247,7 +248,7 @@ void wk_tmr2_init(void) {
   tmr_output_channel_immediately_set(TMR2, TMR_SELECT_CHANNEL_1, FALSE);
 
   /* configure channel 3 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -319,7 +320,7 @@ void wk_tmr3_init(void) {
   tmr_overflow_event_disable(TMR3, TRUE);
 
   /* configure channel 1 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -333,7 +334,7 @@ void wk_tmr3_init(void) {
   tmr_output_channel_immediately_set(TMR3, TMR_SELECT_CHANNEL_1, FALSE);
 
   /* configure channel 2 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -418,7 +419,7 @@ void wk_tmr4_init(void) {
   tmr_overflow_event_disable(TMR4, TRUE);
 
   /* configure channel 1 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -432,7 +433,7 @@ void wk_tmr4_init(void) {
   tmr_output_channel_immediately_set(TMR4, TMR_SELECT_CHANNEL_1, FALSE);
 
   /* configure channel 2 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -446,7 +447,7 @@ void wk_tmr4_init(void) {
   tmr_output_channel_immediately_set(TMR4, TMR_SELECT_CHANNEL_2, FALSE);
 
   /* configure channel 3 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -460,7 +461,7 @@ void wk_tmr4_init(void) {
   tmr_output_channel_immediately_set(TMR4, TMR_SELECT_CHANNEL_3, FALSE);
 
   /* configure channel 4 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -545,7 +546,7 @@ void wk_tmr5_init(void) {
   tmr_overflow_event_disable(TMR5, TRUE);
 
   /* configure channel 1 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -559,7 +560,7 @@ void wk_tmr5_init(void) {
   tmr_output_channel_immediately_set(TMR5, TMR_SELECT_CHANNEL_1, FALSE);
 
   /* configure channel 2 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -573,7 +574,7 @@ void wk_tmr5_init(void) {
   tmr_output_channel_immediately_set(TMR5, TMR_SELECT_CHANNEL_2, FALSE);
 
   /* configure channel 3 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -587,7 +588,7 @@ void wk_tmr5_init(void) {
   tmr_output_channel_immediately_set(TMR5, TMR_SELECT_CHANNEL_3, FALSE);
 
   /* configure channel 4 output settings */
-  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_A;
+  tmr_output_struct.oc_mode = TMR_OUTPUT_CONTROL_PWM_MODE_B;
   tmr_output_struct.oc_output_state = TRUE;
   tmr_output_struct.occ_output_state = FALSE;
   tmr_output_struct.oc_polarity = TMR_OUTPUT_ACTIVE_HIGH;
@@ -657,7 +658,7 @@ void wk_tmr10_init(void) {
   /* add user code end tmr10_init 1 */
 
   /* configure counter settings */
-  tmr_base_init(TMR10, 65535, 10);
+  tmr_base_init(TMR10, 65535, 6);
   tmr_cnt_dir_set(TMR10, TMR_COUNT_UP);
   tmr_clock_source_div_set(TMR10, TMR_CLOCK_DIV1);
   tmr_period_buffer_enable(TMR10, FALSE);
@@ -675,6 +676,41 @@ void wk_tmr10_init(void) {
   /* add user code begin tmr10_init 2 */
 
   /* add user code end tmr10_init 2 */
+}
+
+/**
+ * @brief  init tmr11 function.
+ * @param  none
+ * @retval none
+ */
+void wk_tmr11_init(void) {
+  /* add user code begin tmr11_init 0 */
+
+  /* add user code end tmr11_init 0 */
+
+  /* add user code begin tmr11_init 1 */
+
+  /* add user code end tmr11_init 1 */
+
+  /* configure counter settings */
+  tmr_base_init(TMR11, 65535, 1);
+  tmr_cnt_dir_set(TMR11, TMR_COUNT_UP);
+  tmr_clock_source_div_set(TMR11, TMR_CLOCK_DIV1);
+  tmr_period_buffer_enable(TMR11, FALSE);
+
+  tmr_counter_enable(TMR11, TRUE);
+
+  /**
+   * Users need to configure TMR11 interrupt functions according to the actual application.
+   * 1. Call the below function to enable the corresponding TMR11 interrupt.
+   *     --tmr_interrupt_enable(...)
+   * 2. Add the user's interrupt handler code into the below function in the at32f415_int.c file.
+   *     --void TMR1_TRG_HALL_TMR11_IRQHandler(void)
+   */
+
+  /* add user code begin tmr11_init 2 */
+
+  /* add user code end tmr11_init 2 */
 }
 
 /* add user code begin 1 */

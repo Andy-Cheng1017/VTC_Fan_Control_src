@@ -74,6 +74,7 @@ void EXINT4_IRQHandler(void);
 void EXINT9_5_IRQHandler(void);
 void TMR1_BRK_TMR9_IRQHandler(void);
 void TMR1_OVF_TMR10_IRQHandler(void);
+void TMR1_TRG_HALL_TMR11_IRQHandler(void);
 void USART3_IRQHandler(void);
 void EXINT15_10_IRQHandler(void);
 

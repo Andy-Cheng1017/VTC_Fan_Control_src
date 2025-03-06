@@ -105,6 +105,9 @@ int main(void) {
   /* init tmr10 function. */
   wk_tmr10_init();
 
+  /* init tmr11 function. */
+  wk_tmr11_init();
+
   /* init crc function. */
   wk_crc_init();
 
@@ -127,6 +130,6 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)FG_task_function, (const char*)"FG_task", (uint16_t)FG_STK_SIZE, (void*)NULL, (UBaseType_t)FG_TASK_PRIO,
               (TaskHandle_t*)&FGTask_Handler);
-  
+
   vTaskDelete(NULL);
 }
