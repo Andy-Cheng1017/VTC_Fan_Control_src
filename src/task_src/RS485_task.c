@@ -2,6 +2,8 @@
 #include "RS485_task.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "RS485.h"
+#include "RS485_Region_handler.h"
 
 #define MY_485_ADDR 0x23
 

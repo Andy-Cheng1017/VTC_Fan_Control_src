@@ -42,13 +42,13 @@
 #define START_STK_SIZE 128
 
 #define RS485_TASK_PRIO 3
-#define RS485_STK_SIZE 128
+#define RS485_STK_SIZE 1024
 
 #define PWM_TASK_PRIO 2
-#define PWM_STK_SIZE 512
+#define PWM_STK_SIZE 1024
 
 #define FG_TASK_PRIO 2
-#define FG_STK_SIZE 512
+#define FG_STK_SIZE 1024
 
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
