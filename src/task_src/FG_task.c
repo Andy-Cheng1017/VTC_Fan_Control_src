@@ -7,7 +7,7 @@ TaskHandle_t FGTask_Handler;
 
 FansCardStat_t FansCardStat = {0};
 
-#define MOTOR_PHASE 6
+#define MOTOR_PHASE 2
 #define Fan_FG_READ_PERIOD 500
 
 FgParam_t Fan1_FG = {
@@ -305,4 +305,42 @@ void FG_task_function(void* parameter) {
     FgGetRPM(&Fan16_FG, &FansCardStat.fan16_fb);
   }
   vTaskDelete(NULL);
+}
+
+void FGInit() {
+  FgInit(&Fan1_FG);
+  FgInit(&Fan2_FG);
+  FgInit(&Fan3_FG);
+  FgInit(&Fan4_FG);
+  FgInit(&Fan5_FG);
+  FgInit(&Fan6_FG);
+  FgInit(&Fan7_FG);
+  FgInit(&Fan8_FG);
+  FgInit(&Fan9_FG);
+  FgInit(&Fan10_FG);
+  FgInit(&Fan11_FG);
+  FgInit(&Fan12_FG);
+  FgInit(&Fan13_FG);
+  FgInit(&Fan14_FG);
+  FgInit(&Fan15_FG);
+  FgInit(&Fan16_FG);
+}
+
+void FGWork() {
+  FgGetRPM(&Fan1_FG, &FansCardStat.fan1_fb);
+  FgGetRPM(&Fan2_FG, &FansCardStat.fan2_fb);
+  FgGetRPM(&Fan3_FG, &FansCardStat.fan3_fb);
+  FgGetRPM(&Fan4_FG, &FansCardStat.fan4_fb);
+  FgGetRPM(&Fan5_FG, &FansCardStat.fan5_fb);
+  FgGetRPM(&Fan6_FG, &FansCardStat.fan6_fb);
+  FgGetRPM(&Fan7_FG, &FansCardStat.fan7_fb);
+  FgGetRPM(&Fan8_FG, &FansCardStat.fan8_fb);
+  FgGetRPM(&Fan9_FG, &FansCardStat.fan9_fb);
+  FgGetRPM(&Fan10_FG, &FansCardStat.fan10_fb);
+  FgGetRPM(&Fan11_FG, &FansCardStat.fan11_fb);
+  FgGetRPM(&Fan12_FG, &FansCardStat.fan12_fb);
+  FgGetRPM(&Fan13_FG, &FansCardStat.fan13_fb);
+  FgGetRPM(&Fan14_FG, &FansCardStat.fan14_fb);
+  FgGetRPM(&Fan15_FG, &FansCardStat.fan15_fb);
+  FgGetRPM(&Fan16_FG, &FansCardStat.fan16_fb);
 }

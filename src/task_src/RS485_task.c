@@ -31,7 +31,6 @@ void USART3_IRQHandler(void) {
   } else if (usart_interrupt_flag_get(RsFan.UART, USART_TDBE_FLAG) != RESET) {
     usart_flag_clear(RsFan.UART, USART_TDBE_FLAG);
     usart_interrupt_enable(RsFan.UART, USART_TDBE_INT, FALSE);
-    RsFan.tx_idex--;
     RS485_Tx_Data_ISR(&RsFan);
   }
 }
@@ -69,4 +68,35 @@ void RS485_task_function(void* parameter) {
     vTaskDelay(25);
   }
   vTaskDelete(NULL);
+}
+
+void RS485Init() {
+  RsInit(&RsFan);
+  RsFan.reg_hdle_stat = 0x80;
+  RsFan.reg_hdle_end = 0x9F;
+  RsRegHdle(&RsFan, FansCardHdle);
+}
+
+void RS485Work() {
+  if (RsChkAvailable(&RsFan)) {
+    RsError_t err;
+    err = RS485Read(&RsFan);
+
+    if (err == UNPKG_FINISH) {
+      return;
+    } else if (err != RS485_OK) {
+      return;
+    }
+    err = RS485ReadHandler(&RsFan);
+
+    if (err != RS485_OK) {
+      return;
+    }
+
+    err = RS485Write(&RsFan);
+
+    if (err != RS485_OK) {
+      return;
+    }
+  }
 }

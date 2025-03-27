@@ -28,5 +28,9 @@ typedef struct {
 extern FansCardCtrl_t FansCardCtrl;
 
 void PWM_task_function(void* parameter);
+void PWMInit(void);
+void PWMWork(void);
+
+  
 
 #endif

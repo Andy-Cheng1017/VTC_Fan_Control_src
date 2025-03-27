@@ -8,4 +8,8 @@ extern TaskHandle_t RS485Task_Handler;
 
 void RS485_task_function(void * parameter);
 
+    
+void RS485Init(void);
+void RS485Work(void);
+
 #endif

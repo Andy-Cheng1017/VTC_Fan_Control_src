@@ -41,14 +41,14 @@
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128
 
-#define RS485_TASK_PRIO 3
+#define RS485_TASK_PRIO 4
 #define RS485_STK_SIZE 1024
 
 #define PWM_TASK_PRIO 2
-#define PWM_STK_SIZE 1024
+#define PWM_STK_SIZE 512
 
-#define FG_TASK_PRIO 2
-#define FG_STK_SIZE 1024
+#define FG_TASK_PRIO 3
+#define FG_STK_SIZE 512
 
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
@@ -112,7 +112,15 @@ int main(void) {
   wk_crc_init();
 
   /* add user code begin 2 */
-
+  // FGWork();
+  // PWMInit();
+  // RS485Init();
+  
+  // while (1) {
+  //   FGWork();
+  //   PWMWork();
+  //   RS485Work();
+  // }
   /* add user code end 2 */
 
   xTaskCreate((TaskFunction_t)start_task, (const char*)"start_task", (uint16_t)START_STK_SIZE, (void*)NULL, (UBaseType_t)START_TASK_PRIO,
@@ -127,7 +135,7 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)PWM_task_function, (const char*)"PWM_task", (uint16_t)PWM_STK_SIZE, (void*)NULL, (UBaseType_t)PWM_TASK_PRIO,
               (TaskHandle_t*)&PWMTask_Handler);
-  vTaskDelay(100);
+  vTaskDelay(250);
   xTaskCreate((TaskFunction_t)FG_task_function, (const char*)"FG_task", (uint16_t)FG_STK_SIZE, (void*)NULL, (UBaseType_t)FG_TASK_PRIO,
               (TaskHandle_t*)&FGTask_Handler);
 
