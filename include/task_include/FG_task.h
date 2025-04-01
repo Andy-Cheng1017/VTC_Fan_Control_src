@@ -29,7 +29,5 @@ typedef struct {
 extern FansCardStat_t FansCardStat;
 
 void FG_task_function(void* parameter);
-void FGInit(void);
-void FGWork(void);
 
 #endif

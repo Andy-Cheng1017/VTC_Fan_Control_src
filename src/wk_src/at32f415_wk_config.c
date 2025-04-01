@@ -64,8 +64,8 @@
 /**
  * @brief  system clock config program
  * @note   the system clock is configured as follow:
- *         system clock (sclk)   = hext * pll_mult
- *         system clock source   = HEXT_VALUE
+ *         system clock (sclk)   = hick / 12 * pll_mult
+ *         system clock source   = HICK_VALUE
  *         - hext                = HEXT_VALUE
  *         - sclk                = 144000000
  *         - ahbdiv              = 1
@@ -74,7 +74,7 @@
  *         - apb1clk             = 72000000
  *         - apb2div             = 2
  *         - apb2clk             = 72000000
- *         - pll_mult            = 18
+ *         - pll_mult            = 36
  *         - flash_wtcyc         = 4 cycle
  * @param  none
  * @retval none
@@ -93,12 +93,12 @@ void wk_system_clock_config(void) {
   while (crm_flag_get(CRM_LICK_STABLE_FLAG) != SET) {
   }
 
-  /* enable hext */
-  crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
+  // /* enable hext */
+  // crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
 
-  /* wait till hext is ready */
-  while (crm_hext_stable_wait() == ERROR) {
-  }
+  // /* wait till hext is ready */
+  // while (crm_hext_stable_wait() == ERROR) {
+  // }
 
   /* enable hick */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
@@ -108,7 +108,7 @@ void wk_system_clock_config(void) {
   }
 
   /* config pll clock resource */
-  crm_pll_config(CRM_PLL_SOURCE_HEXT, CRM_PLL_MULT_18);
+  crm_pll_config(CRM_PLL_SOURCE_HICK, CRM_PLL_MULT_36);
 
   /* enable pll */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE);

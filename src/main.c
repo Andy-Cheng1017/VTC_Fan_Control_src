@@ -34,24 +34,32 @@
 #include "wk_system.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "main.h"
 #include "FG_task.h"
 #include "PWM_task.h"
 #include "RS485_task.h"
+#include "fan_main_task.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128
 
-#define RS485_TASK_PRIO 4
+#define RS485_TASK_PRIO 1
 #define RS485_STK_SIZE 1024
 
-#define PWM_TASK_PRIO 2
+#define PWM_TASK_PRIO 3
 #define PWM_STK_SIZE 512
 
-#define FG_TASK_PRIO 3
+#define FG_TASK_PRIO 4
 #define FG_STK_SIZE 512
+
+#define FAN_MAIN_TASK_PRIO 2
+#define FAN_MAIN_STK_SIZE 512
 
 TaskHandle_t StartTask_Handler;
 void start_task(void* pvParameters);
+
+SemaphoreHandle_t RS485RegionMutex = NULL;
+
 
 /**
  * @brief main function.
@@ -112,15 +120,12 @@ int main(void) {
   wk_crc_init();
 
   /* add user code begin 2 */
-  // FGWork();
-  // PWMInit();
-  // RS485Init();
-  
-  // while (1) {
-  //   FGWork();
-  //   PWMWork();
-  //   RS485Work();
-  // }
+  RS485RegionMutex = xSemaphoreCreateMutex();
+
+
+  if (RS485RegionMutex == NULL) {
+      while (1);
+  }
   /* add user code end 2 */
 
   xTaskCreate((TaskFunction_t)start_task, (const char*)"start_task", (uint16_t)START_STK_SIZE, (void*)NULL, (UBaseType_t)START_TASK_PRIO,
@@ -135,9 +140,12 @@ void start_task(void* pvParameters) {
   vTaskDelay(100);
   xTaskCreate((TaskFunction_t)PWM_task_function, (const char*)"PWM_task", (uint16_t)PWM_STK_SIZE, (void*)NULL, (UBaseType_t)PWM_TASK_PRIO,
               (TaskHandle_t*)&PWMTask_Handler);
-  vTaskDelay(250);
+  vTaskDelay(100);
   xTaskCreate((TaskFunction_t)FG_task_function, (const char*)"FG_task", (uint16_t)FG_STK_SIZE, (void*)NULL, (UBaseType_t)FG_TASK_PRIO,
               (TaskHandle_t*)&FGTask_Handler);
+  vTaskDelay(100);
+  xTaskCreate((TaskFunction_t)fan_main_task_function, (const char*)"FAN_main_task", (uint16_t)FAN_MAIN_STK_SIZE, (void*)NULL,
+              (UBaseType_t)FAN_MAIN_TASK_PRIO, (TaskHandle_t*)&FanMainTask_Handler);
 
   vTaskDelete(NULL);
 }

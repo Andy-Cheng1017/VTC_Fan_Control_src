@@ -1,9 +1,15 @@
 #include <stdio.h>
-#include "RS485_task.h"
 #include "FreeRTOS.h"
 #include "task.h"
+
+#define SINGLE_DATA_MAX_SIZE 64
+#define MAX_CIRCLE_BUFFER_SIZE 128
+#define MAX_PKG_SIZE 128
+
 #include "RS485.h"
+#include "RS485_task.h"
 #include "RS485_Region_handler.h"
+#include "main.h"
 
 #define MY_485_ADDR 0x23
 
@@ -37,8 +43,8 @@ void USART3_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsFan);
-  RsFan.reg_hdle_stat = 0x80;
-  RsFan.reg_hdle_end = 0x9F;
+  RsFan.reg_hdle_stat = 0x0100;
+  RsFan.reg_hdle_end = 0x011F;
   RsRegHdle(&RsFan, FansCardHdle);
 
   RsError_t err;
@@ -52,7 +58,10 @@ void RS485_task_function(void* parameter) {
       } else if (err != RS485_OK) {
         continue;
       }
+
+      xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       err = RS485ReadHandler(&RsFan);
+      xSemaphoreGive(RS485RegionMutex);
 
       if (err != RS485_OK) {
         continue;
@@ -68,35 +77,4 @@ void RS485_task_function(void* parameter) {
     vTaskDelay(25);
   }
   vTaskDelete(NULL);
-}
-
-void RS485Init() {
-  RsInit(&RsFan);
-  RsFan.reg_hdle_stat = 0x80;
-  RsFan.reg_hdle_end = 0x9F;
-  RsRegHdle(&RsFan, FansCardHdle);
-}
-
-void RS485Work() {
-  if (RsChkAvailable(&RsFan)) {
-    RsError_t err;
-    err = RS485Read(&RsFan);
-
-    if (err == UNPKG_FINISH) {
-      return;
-    } else if (err != RS485_OK) {
-      return;
-    }
-    err = RS485ReadHandler(&RsFan);
-
-    if (err != RS485_OK) {
-      return;
-    }
-
-    err = RS485Write(&RsFan);
-
-    if (err != RS485_OK) {
-      return;
-    }
-  }
 }
