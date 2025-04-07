@@ -289,22 +289,22 @@ void FG_task_function(void* parameter) {
     vTaskDelayUntil(&xLastWakeTime, Fan_FG_READ_PERIOD);
 
     xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
-    FgGetRPM(&Fan1_FG, &FansCardStat.fan1_fb);
-    FgGetRPM(&Fan2_FG, &FansCardStat.fan2_fb);
-    FgGetRPM(&Fan3_FG, &FansCardStat.fan3_fb);
-    FgGetRPM(&Fan4_FG, &FansCardStat.fan4_fb);
-    FgGetRPM(&Fan5_FG, &FansCardStat.fan5_fb);
-    FgGetRPM(&Fan6_FG, &FansCardStat.fan6_fb);
-    FgGetRPM(&Fan7_FG, &FansCardStat.fan7_fb);
-    FgGetRPM(&Fan8_FG, &FansCardStat.fan8_fb);
-    FgGetRPM(&Fan9_FG, &FansCardStat.fan9_fb);
-    FgGetRPM(&Fan10_FG, &FansCardStat.fan10_fb);
-    FgGetRPM(&Fan11_FG, &FansCardStat.fan11_fb);
-    FgGetRPM(&Fan12_FG, &FansCardStat.fan12_fb);
-    FgGetRPM(&Fan13_FG, &FansCardStat.fan13_fb);
-    FgGetRPM(&Fan14_FG, &FansCardStat.fan14_fb);
-    FgGetRPM(&Fan15_FG, &FansCardStat.fan15_fb);
-    FgGetRPM(&Fan16_FG, &FansCardStat.fan16_fb);
+    FgGetRPM(&Fan1_FG, &FansCardStat.fan_fb[0]);
+    FgGetRPM(&Fan2_FG, &FansCardStat.fan_fb[1]);
+    FgGetRPM(&Fan3_FG, &FansCardStat.fan_fb[2]);
+    FgGetRPM(&Fan4_FG, &FansCardStat.fan_fb[3]);
+    FgGetRPM(&Fan5_FG, &FansCardStat.fan_fb[4]);
+    FgGetRPM(&Fan6_FG, &FansCardStat.fan_fb[5]);
+    FgGetRPM(&Fan7_FG, &FansCardStat.fan_fb[6]);
+    FgGetRPM(&Fan8_FG, &FansCardStat.fan_fb[7]);
+    FgGetRPM(&Fan9_FG, &FansCardStat.fan_fb[8]);
+    FgGetRPM(&Fan10_FG, &FansCardStat.fan_fb[9]);
+    FgGetRPM(&Fan11_FG, &FansCardStat.fan_fb[10]);
+    FgGetRPM(&Fan12_FG, &FansCardStat.fan_fb[11]);
+    FgGetRPM(&Fan13_FG, &FansCardStat.fan_fb[12]);
+    FgGetRPM(&Fan14_FG, &FansCardStat.fan_fb[13]);
+    FgGetRPM(&Fan15_FG, &FansCardStat.fan_fb[14]);
+    FgGetRPM(&Fan16_FG, &FansCardStat.fan_fb[15]);
     xSemaphoreGive(RS485RegionMutex);
 
   }

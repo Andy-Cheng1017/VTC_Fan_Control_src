@@ -127,22 +127,22 @@ void PWM_task_function(void* parameter) {
 
   while (1) {
     vTaskDelayUntil(&xLastWakeTime, PWM_WRITE_PERIOD);
-    PwmSetDuty(&Fan1_PWM, FansCardCtrl.fan1_duty);
-    PwmSetDuty(&Fan2_PWM, FansCardCtrl.fan2_duty);
-    PwmSetDuty(&Fan3_PWM, FansCardCtrl.fan3_duty);
-    PwmSetDuty(&Fan4_PWM, FansCardCtrl.fan4_duty);
-    PwmSetDuty(&Fan5_PWM, FansCardCtrl.fan5_duty);
-    PwmSetDuty(&Fan6_PWM, FansCardCtrl.fan6_duty);
-    PwmSetDuty(&Fan7_PWM, FansCardCtrl.fan7_duty);
-    PwmSetDuty(&Fan8_PWM, FansCardCtrl.fan8_duty);
-    PwmSetDuty(&Fan9_PWM, FansCardCtrl.fan9_duty);
-    PwmSetDuty(&Fan10_PWM, FansCardCtrl.fan10_duty);
-    PwmSetDuty(&Fan11_PWM, FansCardCtrl.fan11_duty);
-    PwmSetDuty(&Fan12_PWM, FansCardCtrl.fan12_duty);
-    PwmSetDuty(&Fan13_PWM, FansCardCtrl.fan13_duty);
-    PwmSetDuty(&Fan14_PWM, FansCardCtrl.fan14_duty);
-    PwmSetDuty(&Fan15_PWM, FansCardCtrl.fan15_duty);
-    PwmSetDuty(&Fan16_PWM, FansCardCtrl.fan16_duty);
+    PwmSetDuty(&Fan1_PWM, FansCardCtrl.fan_duty[0]);
+    PwmSetDuty(&Fan2_PWM, FansCardCtrl.fan_duty[1]);
+    PwmSetDuty(&Fan3_PWM, FansCardCtrl.fan_duty[2]);
+    PwmSetDuty(&Fan4_PWM, FansCardCtrl.fan_duty[3]);
+    PwmSetDuty(&Fan5_PWM, FansCardCtrl.fan_duty[4]);
+    PwmSetDuty(&Fan6_PWM, FansCardCtrl.fan_duty[5]);
+    PwmSetDuty(&Fan7_PWM, FansCardCtrl.fan_duty[6]);
+    PwmSetDuty(&Fan8_PWM, FansCardCtrl.fan_duty[7]);
+    PwmSetDuty(&Fan9_PWM, FansCardCtrl.fan_duty[8]);
+    PwmSetDuty(&Fan10_PWM, FansCardCtrl.fan_duty[9]);
+    PwmSetDuty(&Fan11_PWM, FansCardCtrl.fan_duty[10]);
+    PwmSetDuty(&Fan12_PWM, FansCardCtrl.fan_duty[11]);
+    PwmSetDuty(&Fan13_PWM, FansCardCtrl.fan_duty[12]);
+    PwmSetDuty(&Fan14_PWM, FansCardCtrl.fan_duty[13]);
+    PwmSetDuty(&Fan15_PWM, FansCardCtrl.fan_duty[14]);
+    PwmSetDuty(&Fan16_PWM, FansCardCtrl.fan_duty[15]);
   }
   vTaskDelete(NULL);
 }
