@@ -7,7 +7,7 @@
 
 extern TaskHandle_t FGTask_Handler;
 typedef struct {
-  uint16_t fan_fb[16];  // 0x0080
+  uint16_t fan_fg[16];  // 0x0080
 } FansCardStat_t;
 
 extern FansCardStat_t FansCardStat;

@@ -7,7 +7,7 @@
 extern TaskHandle_t PWMTask_Handler;
 
 typedef struct {
-  uint16_t fan_duty[16];
+  uint16_t fan_pwm[16];
 } FansCardCtrl_t;
 
 extern FansCardCtrl_t FansCardCtrl;

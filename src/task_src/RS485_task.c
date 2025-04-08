@@ -1,15 +1,12 @@
 #include <stdio.h>
 #include "FreeRTOS.h"
 #include "task.h"
-
-#define SINGLE_DATA_MAX_SIZE 64
-#define MAX_CIRCLE_BUFFER_SIZE 128
-#define MAX_PKG_SIZE 128
+#include "RS485_task.h"
+#include "main.h"
 
 #include "RS485.h"
-#include "RS485_task.h"
 #include "RS485_Region_handler.h"
-#include "main.h"
+
 
 #define MY_485_ADDR 0x23
 
@@ -42,10 +39,11 @@ void USART3_IRQHandler(void) {
 }
 
 void RS485_task_function(void* parameter) {
+
   RsInit(&RsFan);
   RsFan.reg_hdle_stat = FANS_CARD_REG_START;
   RsFan.reg_hdle_end = FANS_CARD_REG_END;
-  RsRegHdle(&RsFan, FansCardHdle);
+  RsRegHdle(&RsFan, FansCard_Handler);
 
   RsError_t err;
 

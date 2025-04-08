@@ -60,7 +60,6 @@ void start_task(void* pvParameters);
 
 SemaphoreHandle_t RS485RegionMutex = NULL;
 
-
 /**
  * @brief main function.
  * @param  none
@@ -122,9 +121,8 @@ int main(void) {
   /* add user code begin 2 */
   RS485RegionMutex = xSemaphoreCreateMutex();
 
-
   if (RS485RegionMutex == NULL) {
-      while (1);
+    while (1);
   }
   /* add user code end 2 */
 
