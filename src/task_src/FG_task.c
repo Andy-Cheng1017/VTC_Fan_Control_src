@@ -9,7 +9,7 @@ TaskHandle_t FGTask_Handler;
 FansCardStat_t FansCardStat = {0};
 
 #define MOTOR_PHASE 2
-#define Fan_FG_READ_PERIOD 100
+#define Fan_FG_READ_PERIOD 200
 
 FgParam_t Fan_FG[16] = {
     [0] =
@@ -178,7 +178,6 @@ void EXINT3_IRQHandler(void) {
   if (exint_flag_get(EXINT_LINE_3) != RESET) {
     exint_flag_clear(EXINT_LINE_3);
     FgExintIntSampling(&Fan_FG[12]);
-    // FgExintIntSampling(&Fan13_FG);
   }
 }
 
@@ -186,7 +185,6 @@ void EXINT4_IRQHandler(void) {
   if (exint_flag_get(EXINT_LINE_4) != RESET) {
     exint_flag_clear(EXINT_LINE_4);
     FgExintIntSampling(&Fan_FG[4]);
-    // FgExintIntSampling(&Fan5_FG);
   }
 }
 

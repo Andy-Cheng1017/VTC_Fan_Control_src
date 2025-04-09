@@ -66,7 +66,6 @@
  * @note   the system clock is configured as follow:
  *         system clock (sclk)   = hick / 12 * pll_mult
  *         system clock source   = HICK_VALUE
- *         - hext                = HEXT_VALUE
  *         - sclk                = 144000000
  *         - ahbdiv              = 1
  *         - ahbclk              = 144000000
@@ -92,13 +91,6 @@ void wk_system_clock_config(void) {
   /* wait till lick is ready */
   while (crm_flag_get(CRM_LICK_STABLE_FLAG) != SET) {
   }
-
-  // /* enable hext */
-  // crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE);
-
-  // /* wait till hext is ready */
-  // while (crm_hext_stable_wait() == ERROR) {
-  // }
 
   /* enable hick */
   crm_clock_source_enable(CRM_CLOCK_SOURCE_HICK, TRUE);
@@ -164,9 +156,6 @@ void wk_periph_clock_config(void) {
   /* enable gpioc periph clock */
   crm_periph_clock_enable(CRM_GPIOC_PERIPH_CLOCK, TRUE);
 
-  /* enable gpiod periph clock */
-  crm_periph_clock_enable(CRM_GPIOD_PERIPH_CLOCK, TRUE);
-
   /* enable gpiof periph clock */
   crm_periph_clock_enable(CRM_GPIOF_PERIPH_CLOCK, TRUE);
 
@@ -219,10 +208,10 @@ void wk_nvic_config(void) {
   nvic_irq_enable(EXINT3_IRQn, 0, 0);
   nvic_irq_enable(EXINT4_IRQn, 0, 0);
   nvic_irq_enable(EXINT9_5_IRQn, 0, 0);
-  nvic_irq_enable(TMR1_BRK_TMR9_IRQn, 0, 0);
-  nvic_irq_enable(TMR1_OVF_TMR10_IRQn, 0, 0);
-  nvic_irq_enable(TMR1_TRG_HALL_TMR11_IRQn, 0, 0);
-  nvic_irq_enable(USART3_IRQn, 5, 0);
+  nvic_irq_enable(TMR1_BRK_TMR9_IRQn, 1, 0);
+  nvic_irq_enable(TMR1_OVF_TMR10_IRQn, 1, 0);
+  nvic_irq_enable(TMR1_TRG_HALL_TMR11_IRQn, 1, 0);
+  nvic_irq_enable(USART3_IRQn, 2, 0);
   nvic_irq_enable(EXINT15_10_IRQn, 0, 0);
 }
 

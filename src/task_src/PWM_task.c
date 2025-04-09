@@ -3,7 +3,7 @@
 #include "task.h"
 #include "Duty_PWM.h"
 
-#define PWM_WRITE_PERIOD 100
+#define PWM_WRITE_PERIOD 200
 
 #define PWM_MIN_DUTY 100
 #define PWM_MAX_DUTY 1000

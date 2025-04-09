@@ -623,7 +623,7 @@ void wk_tmr9_init(void) {
   /* add user code end tmr9_init 1 */
 
   /* configure counter settings */
-  tmr_base_init(TMR9, 65535, 999);
+  tmr_base_init(TMR9, 65535, 110);
   tmr_cnt_dir_set(TMR9, TMR_COUNT_UP);
   tmr_clock_source_div_set(TMR9, TMR_CLOCK_DIV1);
   tmr_period_buffer_enable(TMR9, FALSE);
@@ -658,7 +658,7 @@ void wk_tmr10_init(void) {
   /* add user code end tmr10_init 1 */
 
   /* configure counter settings */
-  tmr_base_init(TMR10, 65535, 6);
+  tmr_base_init(TMR10, 65535, 14);
   tmr_cnt_dir_set(TMR10, TMR_COUNT_UP);
   tmr_clock_source_div_set(TMR10, TMR_CLOCK_DIV1);
   tmr_period_buffer_enable(TMR10, FALSE);
@@ -693,7 +693,7 @@ void wk_tmr11_init(void) {
   /* add user code end tmr11_init 1 */
 
   /* configure counter settings */
-  tmr_base_init(TMR11, 65535, 1);
+  tmr_base_init(TMR11, 65535, 7);
   tmr_cnt_dir_set(TMR11, TMR_COUNT_UP);
   tmr_clock_source_div_set(TMR11, TMR_CLOCK_DIV1);
   tmr_period_buffer_enable(TMR11, FALSE);
