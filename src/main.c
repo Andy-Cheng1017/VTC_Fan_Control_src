@@ -37,8 +37,8 @@
 #include "main.h"
 #include "FG_task.h"
 #include "PWM_task.h"
-#include "RS485_task.h"
 #include "fan_main_task.h"
+#include "RS485_task.h"
 
 #define START_TASK_PRIO 1
 #define START_STK_SIZE 128

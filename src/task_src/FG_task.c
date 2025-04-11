@@ -9,7 +9,7 @@ TaskHandle_t FGTask_Handler;
 FansCardStat_t FansCardStat = {0};
 
 #define MOTOR_PHASE 2
-#define Fan_FG_READ_PERIOD 200
+#define Fan_FG_READ_PERIOD 20
 
 FgParam_t Fan_FG[16] = {
     [0] =
@@ -230,22 +230,21 @@ void EXINT15_10_IRQHandler(void) {
 }
 
 void FG_task_function(void* parameter) {
-  TickType_t xLastWakeTime = xTaskGetTickCount();
+  // TickType_t xLastWakeTime = xTaskGetTickCount();
 
   for (int i = 0; i < 16; i++) {
     FgInit(&Fan_FG[i]);
   }
 
   while (1) {
-    vTaskDelayUntil(&xLastWakeTime, Fan_FG_READ_PERIOD);
-
-    xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
+    // vTaskDelayUntil(&xLastWakeTime, Fan_FG_READ_PERIOD);
 
     for (int i = 0; i < 16; i++) {
+      xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       FgGetRPM(&Fan_FG[i], &FansCardStat.fan_fg[i]);
+      xSemaphoreGive(RS485RegionMutex);
+      vTaskDelay(Fan_FG_READ_PERIOD);
     }
-
-    xSemaphoreGive(RS485RegionMutex);
   }
   vTaskDelete(NULL);
 }

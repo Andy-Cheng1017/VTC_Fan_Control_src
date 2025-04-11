@@ -2,7 +2,7 @@
 #define __RS485_REGION_H_
 #include <stdbool.h>
 #include <stdint.h>
-#include "RS485_enum.h"
+#include "RS485.h"
 
 #define FANS_CARD_REG_START 0x00A0
 #define FANS_CARD_REG_END 0x00BF

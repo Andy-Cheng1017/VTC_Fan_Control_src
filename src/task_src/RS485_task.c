@@ -3,14 +3,18 @@
 #include "task.h"
 #include "RS485_task.h"
 #include "main.h"
-
-#include "RS485.h"
 #include "RS485_Region_handler.h"
+#include "RS485.h"
 
+#define SINGLE_DATA_MAX_SIZE 128
+#define MAX_CIRCLE_BUFFER_SIZE (SINGLE_DATA_MAX_SIZE * 2)
+#define MAX_PKG_SIZE SINGLE_DATA_MAX_SIZE
 
 #define MY_485_ADDR 0x23
 
 TaskHandle_t RS485Task_Handler;
+
+DECLARE_RS485_BUFFERS(RsFan, SINGLE_DATA_MAX_SIZE);
 
 Rs485_t RsFan = {
     .UART = USART3,
@@ -20,6 +24,12 @@ Rs485_t RsFan = {
     .StopBit = USART_STOP_1_BIT,
     .ip_addr = MY_485_ADDR,
     .root = false,
+
+    .data_max_size = SINGLE_DATA_MAX_SIZE,
+    .circle_buffer_max_size = MAX_CIRCLE_BUFFER_SIZE,
+    .pkg_max_size = MAX_PKG_SIZE,
+
+    RS485_BUFFERS_INIT(RsFan),
 };
 
 void USART3_IRQHandler(void) {
@@ -39,11 +49,14 @@ void USART3_IRQHandler(void) {
 }
 
 void RS485_task_function(void* parameter) {
-
   RsInit(&RsFan);
   RsFan.reg_hdle_stat = FANS_CARD_REG_START;
   RsFan.reg_hdle_end = FANS_CARD_REG_END;
   RsRegHdle(&RsFan, FansCard_Handler);
+
+  RsFan.reg_hdle_stat = FANS_CARD_SYS_SET_REG_START;
+  RsFan.reg_hdle_end = FANS_CARD_SYS_SET_REG_END;
+  RsRegHdle(&RsFan, FanCardSysSet_Handler);
 
   RsError_t err;
 
