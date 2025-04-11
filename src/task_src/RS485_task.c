@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include "FreeRTOS.h"
-#include "task.h"
 #include "RS485_task.h"
-#include "main.h"
-#include "RS485_Region_handler.h"
+
+#include <stdio.h>
+
+#include "FreeRTOS.h"
 #include "RS485.h"
+#include "RS485_Region_handler.h"
+#include "main.h"
+#include "task.h"
 
 #define SINGLE_DATA_MAX_SIZE 128
-#define MAX_CIRCLE_BUFFER_SIZE (SINGLE_DATA_MAX_SIZE * 2)
-#define MAX_PKG_SIZE SINGLE_DATA_MAX_SIZE
 
 #define MY_485_ADDR 0x23
 
@@ -25,11 +25,7 @@ Rs485_t RsFan = {
     .ip_addr = MY_485_ADDR,
     .root = false,
 
-    .data_max_size = SINGLE_DATA_MAX_SIZE,
-    .circle_buffer_max_size = MAX_CIRCLE_BUFFER_SIZE,
-    .pkg_max_size = MAX_PKG_SIZE,
-
-    RS485_BUFFERS_INIT(RsFan),
+    RS485_BUFFERS_INIT(RsFan, SINGLE_DATA_MAX_SIZE),
 };
 
 void USART3_IRQHandler(void) {
