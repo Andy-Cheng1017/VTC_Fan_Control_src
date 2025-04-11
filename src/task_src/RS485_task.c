@@ -46,13 +46,6 @@ void USART3_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsFan);
-  RsFan.reg_hdle_stat = FANS_CARD_REG_START;
-  RsFan.reg_hdle_end = FANS_CARD_REG_END;
-  RsRegHdle(&RsFan, FansCard_Handler);
-
-  RsFan.reg_hdle_stat = FANS_CARD_SYS_SET_REG_START;
-  RsFan.reg_hdle_end = FANS_CARD_SYS_SET_REG_END;
-  RsRegHdle(&RsFan, FanCardSysSet_Handler);
 
   RsError_t err;
 
