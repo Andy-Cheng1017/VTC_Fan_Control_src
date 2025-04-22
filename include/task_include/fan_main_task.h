@@ -7,6 +7,12 @@
 
 extern TaskHandle_t FanMainTask_Handler;
 
+typedef enum{
+  FAN_OK = 0,
+  FAN_WITHOUT_INSTALLATION,
+  FAN_SPEED_TOO_LOW,
+}FAN_FAULT_STATUS_t;
+
 typedef enum {
   ONLY_WARNING,
   WARNING_AND_STOP,
@@ -31,9 +37,9 @@ typedef struct {
 extern FanCardSysSet_t FanCardSysSet;
 
 typedef struct {
-  uint16_t fan_board_fault_status;
+  FAN_FAULT_STATUS_t fan_fault_status;
   uint16_t fan_status_on_fan_board_bitfield_0_15;
-
+  uint8_t fan_count;
 } FanCardSysDisp_t;
 
 extern FanCardSysDisp_t FanCardSysDisp;

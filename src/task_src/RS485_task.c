@@ -2,11 +2,12 @@
 
 #include <stdio.h>
 
-#include "FreeRTOS.h"
+#include "FreeRTOS.h" 
+#include "task.h"
 #include "RS485.h"
 #include "RS485_Region_handler.h"
 #include "main.h"
-#include "task.h"
+#include "fan_main_task.h"
 
 #define SINGLE_DATA_MAX_SIZE 128
 
@@ -61,12 +62,17 @@ void RS485_task_function(void* parameter) {
 
       xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       err = RS485ReadHandler(&RsFan);
-      xSemaphoreGive(RS485RegionMutex);
 
       if (err != RS485_OK) {
         continue;
       }
 
+      if (RsFan.rx_Func == WRITE_SINGLE_REGISTER &&
+          (RsFan.rx_reg_start_addr >= FANS_CARD_WRITE_REG_START && RsFan.rx_reg_start_addr <= FANS_CARD_WRITE_REG_END)) {
+        FanCardSysSet.auto_control = false;
+      }
+      xSemaphoreGive(RS485RegionMutex);
+      
       err = RS485Write(&RsFan);
 
       if (err != RS485_OK) {

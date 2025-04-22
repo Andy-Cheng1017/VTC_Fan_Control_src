@@ -4,6 +4,11 @@
 #include "FG_RPM.h"
 #include "main.h"
 
+
+#define SAMPLE_COUNT 8
+#define MAX_BUF_MASK (SAMPLE_COUNT - 1)
+#define UPDATE_IDX(idx) ((idx) = (((idx) + 1) & MAX_BUF_MASK))
+
 TaskHandle_t FGTask_Handler;
 
 FansCardStat_t FansCardStat = {0};
@@ -229,22 +234,37 @@ void EXINT15_10_IRQHandler(void) {
   }
 }
 
+uint16_t sample_fg[16][SAMPLE_COUNT] = {0};
+uint8_t sample_index = {0};
+
 void FG_task_function(void* parameter) {
-  // TickType_t xLastWakeTime = xTaskGetTickCount();
+  TickType_t Calu_FG_Tick;
 
   for (int i = 0; i < 16; i++) {
     FgInit(&Fan_FG[i]);
   }
 
   while (1) {
-    // vTaskDelayUntil(&xLastWakeTime, Fan_FG_READ_PERIOD);
-
     for (int i = 0; i < 16; i++) {
       xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
-      FgGetRPM(&Fan_FG[i], &FansCardStat.fan_fg[i]);
+      FgGetRPM(&Fan_FG[i], &sample_fg[i][sample_index]);
       xSemaphoreGive(RS485RegionMutex);
       vTaskDelay(Fan_FG_READ_PERIOD);
     }
+    UPDATE_IDX(sample_index);
+
+    if(xTaskGetTickCount() - Calu_FG_Tick > pdMS_TO_TICKS(500)){
+      for (int i = 0; i < 16; i++) {
+        uint32_t sum = 0;
+        for (int j = 0; j < SAMPLE_COUNT; j++) {
+          sum += sample_fg[i][j];
+        }
+        FansCardStat.fan_fg[i] = sum >> 3;
+      }
+      Calu_FG_Tick = xTaskGetTickCount();
+    }
+
+
   }
   vTaskDelete(NULL);
 }
