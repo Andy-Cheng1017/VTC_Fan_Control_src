@@ -5,9 +5,6 @@
 #include "main.h"
 #include "fan_main_task.h"
 
-// #define SMP_CNT_PWR (__builtin_ctz(FG_SAMPLE_COUNT_MAX))
-// _Static_assert((FG_SAMPLE_COUNT_MAX & (FG_SAMPLE_COUNT_MAX - 1)) == 0, "FG_SAMPLE_COUNT_MAX must be a power of 2");
-
 #define MAX_BUF_MASK (FG_SAMPLE_COUNT_MAX - 1)
 #define UPDATE_IDX(idx) ((idx) = (((idx) + 1) & MAX_BUF_MASK))
 
@@ -261,6 +258,7 @@ void FG_task_function(void* parameter) {
       xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       FgGetRPM(&Fan_FG[i], &sample_fg[i][sample_index]);
       xSemaphoreGive(RS485RegionMutex);
+      vTaskDelay(5);
     }
     UPDATE_IDX(sample_index);
 

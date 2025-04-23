@@ -5,7 +5,6 @@
 #include "task.h"
 
 #define FG_SAMPLE_COUNT_MAX 32
-#define FAN_SPEED_SAMPLING_INTERVAL 160
 
 extern TaskHandle_t FGTask_Handler;
 typedef struct {

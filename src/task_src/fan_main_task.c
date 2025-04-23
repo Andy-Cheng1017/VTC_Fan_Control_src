@@ -22,8 +22,8 @@ FanCardSysSet_t FanCardSysSet = {
             .fan_fg_difference_warning_threshold = 0,
         },
 
-    .fan_speed_sampling_interval_ms = FAN_SPEED_SAMPLING_INTERVAL,
-    .weighted_moving_average_count = 8,
+    .fan_speed_sampling_interval_ms = 40,
+    .weighted_moving_average_count = 4,
 };
 
 FanCardSysDisp_t FanCardSysDisp = {
