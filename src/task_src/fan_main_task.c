@@ -21,6 +21,9 @@ FanCardSysSet_t FanCardSysSet = {
             .fan_low_speed_warning_threshold = 1000,
             .fan_fg_difference_warning_threshold = 0,
         },
+
+    .fan_speed_sampling_interval_ms = FAN_SPEED_SAMPLING_INTERVAL,
+    .weighted_moving_average_count = 8,
 };
 
 FanCardSysDisp_t FanCardSysDisp = {
@@ -53,6 +56,7 @@ void jump_out_auto_control() {
   FanCardSysSet.auto_control = false;
   for (int i = 0; i < 16; i++) {
     FansCardCtrl.fan_pwm[i] = 0;
+    clear_threshold_monitor(&fan_monitor[i]);
   }
 }
 
@@ -64,17 +68,20 @@ void fan_main_task_function(void* pvParameters) {
     if (FanCardSysSet.auto_control == true) {
       FanCardSysDisp.fan_count = __builtin_popcount((unsigned)FanCardSysSet.fan_installation_status);
 
-      for (int i = 0; i < FanCardSysDisp.fan_count; i++) {
+      for (int i = 0; i < 16; i++) {
         if (FanCardSysSet.fan_installation_status & (1 << i)) {
           FansCardCtrl.fan_pwm[i] = FanCardSysSet.auto_control_target_speed;
 
-          uint8_t ret = check_fan_status(i);
-          if (ret != FAN_OK && FanCardSysSet.fan_alarm.act == WARNING_AND_STOP) {
-            jump_out_auto_control();
-            continue;
+          if (FanCardSysSet.auto_control_target_speed > 0) {
+            uint8_t ret = check_fan_status(i);
+            if (ret != FAN_OK && FanCardSysSet.fan_alarm.act == WARNING_AND_STOP) {
+              jump_out_auto_control();
+              continue;
+            }
           }
         } else {
           FansCardCtrl.fan_pwm[i] = 0;
+          FanCardSysDisp.fan_status_on_fan_board_bitfield_0_15 &= ~(1 << i);
         }
       }
     }

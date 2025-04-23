@@ -3,18 +3,20 @@
 #include "task.h"
 #include "FG_RPM.h"
 #include "main.h"
+#include "fan_main_task.h"
 
+// #define SMP_CNT_PWR (__builtin_ctz(FG_SAMPLE_COUNT_MAX))
+// _Static_assert((FG_SAMPLE_COUNT_MAX & (FG_SAMPLE_COUNT_MAX - 1)) == 0, "FG_SAMPLE_COUNT_MAX must be a power of 2");
 
-#define SAMPLE_COUNT 8
-#define MAX_BUF_MASK (SAMPLE_COUNT - 1)
+#define MAX_BUF_MASK (FG_SAMPLE_COUNT_MAX - 1)
 #define UPDATE_IDX(idx) ((idx) = (((idx) + 1) & MAX_BUF_MASK))
 
 TaskHandle_t FGTask_Handler;
+TaskHandle_t FG_Calculate_Handler;
 
 FansCardStat_t FansCardStat = {0};
 
 #define MOTOR_PHASE 2
-#define Fan_FG_READ_PERIOD 20
 
 FgParam_t Fan_FG[16] = {
     [0] =
@@ -234,37 +236,42 @@ void EXINT15_10_IRQHandler(void) {
   }
 }
 
-uint16_t sample_fg[16][SAMPLE_COUNT] = {0};
+uint16_t sample_fg[16][FG_SAMPLE_COUNT_MAX] = {0};
 uint8_t sample_index = {0};
 
+void FG_Calculate_task_function(void* parameter) {
+  while (1) {
+    vTaskDelay(100);
+  }
+  vTaskDelete(NULL);
+}
+
 void FG_task_function(void* parameter) {
-  TickType_t Calu_FG_Tick;
+  TickType_t xLastWakeTime;
+
+  xTaskCreate(FG_Calculate_task_function, "FG_Calculate_Task", 128, NULL, 1, &FG_Calculate_Handler);
 
   for (int i = 0; i < 16; i++) {
     FgInit(&Fan_FG[i]);
   }
 
   while (1) {
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(FanCardSysSet.fan_speed_sampling_interval_ms));
     for (int i = 0; i < 16; i++) {
       xSemaphoreTake(RS485RegionMutex, RS485_SEMAPHORE_TIMEOUT);
       FgGetRPM(&Fan_FG[i], &sample_fg[i][sample_index]);
       xSemaphoreGive(RS485RegionMutex);
-      vTaskDelay(Fan_FG_READ_PERIOD);
     }
     UPDATE_IDX(sample_index);
 
-    if(xTaskGetTickCount() - Calu_FG_Tick > pdMS_TO_TICKS(500)){
-      for (int i = 0; i < 16; i++) {
-        uint32_t sum = 0;
-        for (int j = 0; j < SAMPLE_COUNT; j++) {
-          sum += sample_fg[i][j];
-        }
-        FansCardStat.fan_fg[i] = sum >> 3;
+    uint8_t smp_cnt_pwr = __builtin_ctz(FanCardSysSet.weighted_moving_average_count);
+    for (int i = 0; i < 16; i++) {
+      uint32_t sum = 0;
+      for (int j = 0; j < FanCardSysSet.weighted_moving_average_count; j++) {
+        sum += sample_fg[i][j];
       }
-      Calu_FG_Tick = xTaskGetTickCount();
+      FansCardStat.fan_fg[i] = sum >> smp_cnt_pwr;
     }
-
-
   }
   vTaskDelete(NULL);
 }

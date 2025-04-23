@@ -32,6 +32,9 @@ typedef struct {
 
   FanAlarm_t fan_alarm;
 
+  uint16_t fan_speed_sampling_interval_ms;
+  uint8_t weighted_moving_average_count;  
+
 } FanCardSysSet_t;
 
 extern FanCardSysSet_t FanCardSysSet;
