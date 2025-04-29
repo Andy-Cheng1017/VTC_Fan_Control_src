@@ -126,9 +126,7 @@ int main(void) {
     while (1);
   }
 
-  RsRegHdle(FansCard_Handler, FANS_CARD_REG_START, FANS_CARD_REG_END);
-  RsRegHdle(FanCardSysSet_Handler, FANS_CARD_SYS_SET_REG_START, FANS_CARD_SYS_SET_REG_END);
-  RsRegHdle(FanCardSysDisp_Handler, FANS_CARD_SYS_DISP_REG_START, FANS_CARD_SYS_DISP_REG_END);
+  RsRegHdle_Init();
   /* add user code end 2 */
 
   xTaskCreate((TaskFunction_t)start_task, (const char*)"start_task", (uint16_t)START_STK_SIZE, (void*)NULL, (UBaseType_t)START_TASK_PRIO,

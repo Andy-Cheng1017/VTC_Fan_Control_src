@@ -1,7 +1,6 @@
-#include "RS485_task.h"
 
 #include <stdio.h>
-
+#include "RS485_task.h"
 #include "FreeRTOS.h" 
 #include "task.h"
 #include "RS485.h"
@@ -9,9 +8,7 @@
 #include "main.h"
 #include "fan_main_task.h"
 
-#define SINGLE_DATA_MAX_SIZE 128
-
-#define MY_485_ADDR 0x23
+#define SINGLE_DATA_MAX_SIZE 256
 
 TaskHandle_t RS485Task_Handler;
 
@@ -23,7 +20,7 @@ Rs485_t RsFan = {
     .BaudRate = BR_115200,
     .DataBit = USART_DATA_8BITS,
     .StopBit = USART_STOP_1_BIT,
-    .ip_addr = MY_485_ADDR,
+    .ip_addr = FAN_RS485_ADDR,
     .root = false,
 
     RS485_BUFFERS_INIT(RsFan, SINGLE_DATA_MAX_SIZE),
@@ -47,7 +44,6 @@ void USART3_IRQHandler(void) {
 
 void RS485_task_function(void* parameter) {
   RsInit(&RsFan);
-
   RsError_t err;
 
   while (1) {
@@ -64,11 +60,12 @@ void RS485_task_function(void* parameter) {
       err = RS485ReadHandler(&RsFan);
 
       if (err != RS485_OK) {
+        xSemaphoreGive(RS485RegionMutex);
         continue;
       }
 
       if (RsFan.rx_Func == WRITE_SINGLE_REGISTER &&
-          (RsFan.rx_reg_start_addr >= FANS_CARD_WRITE_REG_START && RsFan.rx_reg_start_addr <= FANS_CARD_WRITE_REG_END)) {
+          (RsFan.rx_reg_start_addr >= FANS_PWM_SET_REG_START && RsFan.rx_reg_start_addr <= FANS_PWM_SET_REG_END)) {
         FanCardSysSet.auto_control = false;
       }
       xSemaphoreGive(RS485RegionMutex);
